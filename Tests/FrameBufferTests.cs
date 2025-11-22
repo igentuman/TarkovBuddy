@@ -192,7 +192,7 @@ namespace TarkovBuddy.Tests
             for (int i = 0; i < 10; i++)
             {
                 buffer.Enqueue(CreateTestFrame());
-                buffer.Should().HaveLessOrEqualTo(3).Items();
+                buffer.Count.Should().BeLessThanOrEqualTo(3);
             }
 
             buffer.Count.Should().Be(3);
@@ -257,8 +257,8 @@ namespace TarkovBuddy.Tests
         {
             // Arrange
             var buffer = new FrameBuffer(10);
-            var enqueueCount = 0;
-            var dequeueCount = 0;
+            long enqueueCount = 0;
+            long dequeueCount = 0;
             var exception = (Exception?)null;
 
             // Act

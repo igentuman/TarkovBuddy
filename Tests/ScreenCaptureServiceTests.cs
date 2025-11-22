@@ -238,7 +238,7 @@ namespace TarkovBuddy.Tests
             capturedFrame!.Width.Should().BeGreaterThan(0);
             capturedFrame.Height.Should().BeGreaterThan(0);
             capturedFrame.PixelData.Should().NotBeEmpty();
-            capturedFrame.Timestamp.Should().BeLessThanOrEqualTo(DateTime.UtcNow);
+            capturedFrame.Timestamp.Should().BeOnOrBefore(DateTime.UtcNow);
             capturedFrame.FrameNumber.Should().BeGreaterThanOrEqualTo(0);
         }
 

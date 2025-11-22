@@ -47,7 +47,7 @@ namespace TarkovBuddy.Services
         /// <summary>
         /// Gets whether the capture service is currently active.
         /// </summary>
-        bool IsRunning { get; }
+        new bool IsRunning { get; }
 
         /// <summary>
         /// Raised when a new frame is captured.
