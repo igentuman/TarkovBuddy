@@ -72,7 +72,10 @@ namespace TarkovBuddy
 
                 // Initialize services
                 var configService = _host.Services.GetRequiredService<IConfigurationService>();
+                
+                Console.WriteLine("TarkovBuddy: Initializing configuration service...");
                 configService.InitializeAsync().Wait();
+                Console.WriteLine("TarkovBuddy: Configuration service initialized successfully");
 
                 var logger = _host.Services.GetRequiredService<ILogger<App>>();
                 logger.LogInformation("TarkovBuddy v1.0.0.0 starting...");

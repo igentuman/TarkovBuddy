@@ -35,16 +35,23 @@ namespace TarkovBuddy.Services
             _isRunning = false;
         }
 
-        public async Task InitializeAsync()
+        public Task InitializeAsync()
         {
             try
             {
-                await LoadConfigurationAsync();
+                Console.WriteLine("ConfigurationService.InitializeAsync: Starting...");
+                Console.WriteLine("ConfigurationService.InitializeAsync: Calling LoadConfigurationAsync...");
+                LoadConfigurationAsync();
+                Console.WriteLine("ConfigurationService.InitializeAsync: LoadConfigurationAsync completed");
                 _isRunning = true;
+                Console.WriteLine("ConfigurationService.InitializeAsync: Calling _logger.LogInformation...");
                 _logger.LogInformation("ConfigurationService initialized successfully");
+                Console.WriteLine("ConfigurationService.InitializeAsync: Completed successfully");
+                return Task.CompletedTask;
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"ConfigurationService.InitializeAsync: Exception occurred: {ex.Message}");
                 _logger.LogError(ex, "Failed to initialize ConfigurationService");
                 throw;
             }
@@ -112,33 +119,44 @@ namespace TarkovBuddy.Services
             return _cache.ContainsKey(key) || !string.IsNullOrEmpty(_configuration[key]);
         }
 
-        public async Task LoadConfigurationAsync()
+        public Task LoadConfigurationAsync()
         {
             try
             {
+                Console.WriteLine($"LoadConfigurationAsync: Checking if config file exists at {_configPath}");
+                
                 if (!File.Exists(_configPath))
                 {
+                    Console.WriteLine($"LoadConfigurationAsync: Config file NOT found, creating defaults");
                     _logger.LogWarning("Configuration file not found at {ConfigPath}, using defaults", _configPath);
                     CreateDefaultConfiguration();
-                    return;
+                    return Task.CompletedTask;
                 }
 
-                string jsonContent = await File.ReadAllTextAsync(_configPath);
+                Console.WriteLine($"LoadConfigurationAsync: Config file found, reading file...");
+                // Use synchronous file I/O
+                string jsonContent = File.ReadAllText(_configPath);
+                Console.WriteLine($"LoadConfigurationAsync: File read complete, parsing JSON...");
+                
                 var jObject = JObject.Parse(jsonContent);
+                Console.WriteLine($"LoadConfigurationAsync: JSON parsed, flattening and caching...");
 
                 _cache.Clear();
                 FlattenJsonAndCache(jObject);
 
+                Console.WriteLine($"LoadConfigurationAsync: Configuration loaded and cached successfully");
                 _logger.LogInformation("Configuration loaded successfully from {ConfigPath}", _configPath);
+                return Task.CompletedTask;
             }
             catch (Exception ex)
             {
+                Console.WriteLine($"LoadConfigurationAsync: Exception - {ex.Message}");
                 _logger.LogError(ex, "Failed to load configuration from {ConfigPath}", _configPath);
                 throw;
             }
         }
 
-        public async Task SaveConfigurationAsync()
+        public Task SaveConfigurationAsync()
         {
             try
             {
@@ -169,9 +187,11 @@ namespace TarkovBuddy.Services
                 }
 
                 string jsonContent = jObject.ToString();
-                await File.WriteAllTextAsync(_configPath, jsonContent);
+                // Use synchronous file I/O
+                File.WriteAllText(_configPath, jsonContent);
 
                 _logger.LogInformation("Configuration saved successfully to {ConfigPath}", _configPath);
+                return Task.CompletedTask;
             }
             catch (Exception ex)
             {
