@@ -1,0 +1,92 @@
+{
+  "Application": {
+    "Name": "TarkovBuddy",
+    "Version": "1.0.0.0",
+    "LogLevel": "Information",
+    "EnableAutoStart": false,
+    "MinimizeToTray": true,
+    "CheckForUpdates": true
+  },
+  "Capture": {
+    "TargetFPS": 30,
+    "MaxLatencyMs": 50,
+    "BufferSize": 5,
+    "EnableGPUAcceleration": true
+  },
+  "OCR": {
+    "EnableOCR": true,
+    "LanguageModels": ["eng", "rus"],
+    "CacheSize": 100,
+    "TimeoutMs": 5000,
+    "MinimumConfidence": 0.7
+  },
+  "ObjectDetection": {
+    "EnableDetection": true,
+    "ModelPath": "Resources/Models/yolov8n.onnx",
+    "ConfidenceThreshold": 0.5,
+    "UseGPU": true,
+    "MaxDetectionsPerFrame": 1000
+  },
+  "Modules": {
+    "Enabled": true,
+    "MapRecognition": {
+      "Enabled": true,
+      "MinimumConfidence": 0.8
+    },
+    "SpawnInference": {
+      "Enabled": true,
+      "UseUserInput": true
+    },
+    "QuestAssistant": {
+      "Enabled": true,
+      "ShowQuestLocations": true
+    },
+    "LootEvaluator": {
+      "Enabled": true,
+      "ShowItemValues": true,
+      "MinimumRublesValue": 1000
+    },
+    "StashIndexer": {
+      "Enabled": true,
+      "ScanInterval": 30000
+    },
+    "FleaPriceProvider": {
+      "Enabled": true,
+      "RefreshInterval": 3600000,
+      "CacheExpireMinutes": 60
+    }
+  },
+  "Overlay": {
+    "Enabled": true,
+    "Opacity": 0.9,
+    "RefreshRate": 60,
+    "Position": "TopRight",
+    "Scale": 1.0,
+    "TextSize": 12,
+    "Hotkeys": {
+      "ToggleMapOverlay": "alt+m",
+      "ToggleQuestOverlay": "alt+q",
+      "ToggleLootHelper": "alt+l",
+      "ToggleStashStats": "alt+s",
+      "RefreshCapture": "alt+r"
+    }
+  },
+  "Logging": {
+    "FilePath": "logs/tarkov-buddy.log",
+    "MaxFileSize": 104857600,
+    "RetainedFileCountLimit": 10,
+    "RollingInterval": "Day",
+    "OutputTemplate": "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] [{SourceContext}] {Message:lj}{NewLine}{Exception}"
+  },
+  "Performance": {
+    "MaxMemoryMB": 300,
+    "EnableProfiling": false,
+    "ProfilingIntervalMs": 5000
+  },
+  "Advanced": {
+    "EnableDebugOverlay": false,
+    "EnablePerformanceMonitoring": true,
+    "LogFrameMetrics": false,
+    "ValidateFrameSize": true
+  }
+}
